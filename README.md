@@ -47,7 +47,7 @@ Modify/
 │   ├── index.html  
 │   └── result.html  
 └── static/  
-    └── style.css  
+     |── style.css  
 
 ---
 
