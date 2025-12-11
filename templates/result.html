@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Your Moodify Results 🎶</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
     <div class="result-section">
     <h2 class="printStatement">Your Predicted Mood: <span class="mood">{{ mood|capitalize }}</span> 😌</h2>
 
-    <p>Here are 6 song recommendations just for you:</p>
+    <p>Here are the songs recommended just for you:</p>
 
     <ul class="song-list">
         {% for song in songs %}
