@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request
 from model import modelTrain, predictor
 from recommendations import getSongs, get_motivational_tip
+import os
 
 app = Flask(__name__)
 
-# Load model ONCE (this is GOOD)
+# 🔹 Load model using absolute paths (works on Render)
+model_dir = os.path.dirname(os.path.abspath(__file__))
 model, time_encoder, activity_encoder, colns, mood_encoder = modelTrain()
 
 @app.route("/", methods=["GET", "POST"])
@@ -27,6 +29,7 @@ def home():
                 social_pref
             ]
 
+            # 🔹 Get prediction
             predicted_mood = predictor(
                 input_list,
                 model,
@@ -35,24 +38,19 @@ def home():
                 mood_encoder,
                 colns
             )
-
             predicted_mood = str(predicted_mood)
+
+            # 🔹 Get songs & tip
             songs = getSongs(predicted_mood)
             tip = get_motivational_tip(predicted_mood)
 
-            return render_template(
-                "result.html",
-                mood=predicted_mood,
-                songs=songs,
-                tip=tip
-            )
+            return render_template("result.html", mood=predicted_mood, songs=songs, tip=tip)
 
         except Exception as e:
-            return f"Something went wrong: {e}"
+            return f"Error on Render: {e}"
 
     return render_template("index.html")
 
-
-# 🔴 CHANGE IS HERE ONLY 👇
+# 🔹 Render-compatible host & port
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
